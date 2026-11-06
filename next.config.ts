@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // The motion engine is a direct port of the design and manages DOM listeners itself.
+  reactStrictMode: false,
 };
 
 export default nextConfig;

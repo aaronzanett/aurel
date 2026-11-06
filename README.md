@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AUREL — Synthetic Nature
 
-## Getting Started
+A faithful Next.js (App Router, TypeScript) implementation of the "Aurel Gallery v3" design from Claude Design: an immersive, scroll-driven digital art gallery with seven fictional works.
 
-First, run the development server:
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run typecheck && npm run lint && npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Optional: set `NEXT_PUBLIC_SITE_URL` so Open Graph image URLs resolve to your domain.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How it maps to the design
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Design | Here |
+| --- | --- |
+| `<helmet>` fonts, tokens, page CSS | `src/app/globals.css` (Newsreader + Nunito files bundled in `public/fonts`) |
+| Template + inline styles | `render()` in `src/components/gallery/Gallery.tsx` (`s()` in `src/lib/style.ts` keeps the inline style strings verbatim) |
+| Motion engine (parallax, reveals, glide/teleport nav, map, detail overlay, `#/works/:id` deep links) | Class body of `Gallery.tsx`, ported unchanged |
+| Aurel design-system components (`Icon`, `Pill`, `StarField`, `Mist`, `TextReveal`) | `src/components/ds/` |
+| Images, hero/closing hills, journey stills and videos, logos | `public/assets/` |
 
-## Learn More
+The engine is deliberately untyped (`@ts-nocheck`) because it drives the DOM imperatively and mirrors the original line for line.
 
-To learn more about Next.js, take a look at the following resources:
+## Notes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Detail views use a hash route (`/#/works/<id>`), exactly as in the design.
+- Respects `prefers-reduced-motion` (all motion collapses to static states).
+- The artists are fictional; works are original procedural artwork (see the footer).
